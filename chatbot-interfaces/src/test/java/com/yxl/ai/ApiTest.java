@@ -53,4 +53,26 @@ public class ApiTest {
             System.out.println(response.getStatusLine().getStatusCode());
         }
     }
+    @Test
+    public void test_chatGPT() throws IOException {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost post = new HttpPost("https://api.chatanywhere.com.cn/v1/chat/completions");
+        post.addHeader("Content-Type", "application/json");
+        post.addHeader("Authorization", "Bearer sk-m4RUVhgn1EiIQvht0lsSeX9hZm9g7k1sw36t2NtnRWuN9BxR");
+
+        String paramJson = "{\"model\": \"gpt-3.5-turbo\",\"stream\": false, \"messages\": [{\"role\": \"assistant\",\"content\": \"你好，你是谁\"}]}";
+
+        StringEntity stringEntity = new StringEntity(paramJson, ContentType.create("text/json", "UTF-8"));
+        post.setEntity(stringEntity);
+        // bf664cc65fd69b69fea312d6ccbfdb2d.7TN74083aIZhkH1j
+
+        CloseableHttpResponse response = httpClient.execute(post);
+        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+            String res = EntityUtils.toString(response.getEntity());
+            System.out.println(res);
+        } else {
+            System.out.println(response.getStatusLine().getStatusCode());
+        }
+    }
 }
